@@ -16,7 +16,7 @@
   yum:
     name: ceph-deploy
     state: present
-    enablerepo: ceph
+  become: True
 
 - name: Installing packages with ceph-deploy
   command: ceph-deploy install {{ item }}
@@ -25,15 +25,10 @@
 - name: Creating new Ceph cluster
   command: ceph-deploy new mon0
 
-- name: Creating Ceph /etc/ceph directory
-  file:
-    path: /etc/ceph
-    state: directory
-
 - name: Generating Ceph configuration file
   template:
-    src: roles/mons/templates/ceph.conf.j2
-    dest: /etc/ceph/ceph.conf
+    src: roles/admin/templates/ceph.conf.j2
+    dest: /home/vagrant/ceph.conf
     mod: '0766'
 
 - name: Initializing mon

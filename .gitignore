@@ -1,3 +1,4 @@
 .vagrant/
 ansible.log
 disk-*
+toolbox/tmux-cssh

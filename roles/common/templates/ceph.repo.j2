@@ -4,7 +4,7 @@ baseurl=http://download.ceph.com/rpm-{{ ceph_release }}/{{ redhat_distro }}/$bas
 enabled=1
 gpgcheck=1
 type=rpm-md
-gpgkey=https://download.ceph.com/git/?p=ceph.git;a=blob_plain;f=keys/release.asc
+gpgkey=https://download.ceph.com/keys/release.asc
 priority=1
 
 [ceph-noarch]
@@ -13,7 +13,7 @@ baseurl=http://download.ceph.com/rpm-{{ ceph_release }}/{{ redhat_distro }}/noar
 enabled=1
 gpgcheck=1
 type=rpm-md
-gpgkey=https://download.ceph.com/git/?p=ceph.git;a=blob_plain;f=keys/release.asc
+gpgkey=https://download.ceph.com/keys/release.asc
 priority=1
 
 [ceph-source]
@@ -22,7 +22,7 @@ baseurl=http://download.ceph.com/rpm-{{ ceph_release }}/{{ redhat_distro }}/SRPM
 enabled=0
 gpgcheck=1
 type=rpm-md
-gpgkey=https://download.ceph.com/git/?p=ceph.git;a=blob_plain;f=keys/release.asc
+gpgkey=https://download.ceph.com/keys/release.asc
 priority=1
 
 [ceph-deploy]
@@ -31,5 +31,5 @@ baseurl=http://download.ceph.com/rpm-{{ ceph_release }}/{{ redhat_distro }}/noar
 enabled=1
 gpgcheck=1
 type=rpm-md
-gpgkey=https://download.ceph.com/git/?p=ceph.git;a=blob_plain;f=keys/release.asc
+gpgkey=https://download.ceph.com/keys/release.asc
 priority=1

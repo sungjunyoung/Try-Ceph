@@ -1,0 +1,17 @@
+#!/bin/bash
+
+BASEDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+echo $BASEDIR
+if [[ ! -d ${BASEDIR}/tmux-cssh ]]; then
+  git clone https://github.com/peikk0/tmux-cssh
+  sed -i 's/ssh ${ssh_options} ${host}/vagrant ssh ${ssh_options} ${host}/g' ${BASEDIR}/tmux-cssh/tmux-cssh
+  chmod +x ${BASEDIR}/tmux-cssh/tmux-cssh
+fi
+
+HOSTS=$(cat ${BASEDIR}/hosts/hosts | fzf -x -m -e --reverse --bind=left:page-up,right:page-down --no-mouse)
+if [[ ${HOSTS} != "" ]]; then
+  pushd ${BASEDIR}
+  pushd ../
+  ${BASEDIR}/tmux-cssh/tmux-cssh -n cs-`date +%s` $HOSTS
+fi
