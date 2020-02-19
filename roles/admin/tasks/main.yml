@@ -23,21 +23,29 @@
   with_items: "{{ groups.all }}"
 
 - name: Creating new Ceph cluster
-  command: ceph-deploy new mon0
-
-- name: Generating Ceph configuration file
-  template:
-    src: roles/admin/templates/ceph.conf.j2
-    dest: /home/vagrant/ceph.conf
-    mod: '0766'
-
-- name: Initializing mon
-  command: ceph-deploy mon create-initial
-
-- name: Copying config file and admin key to ceph mons
-  command: ceph-deploy admin {{ item }}
+  command: ceph-deploy --overwrite-conf new {{ item }}
   with_items: "{{ groups.mons }}"
 
-- name: Copying config file and admin key to ceph osds
-  command: ceph-deploy admin {{ item }}
+- name: Initializing mon
+  command: ceph-deploy --overwrite-conf mon create-initial
+
+- name: Copying config file and admin key to ceph daemons
+  command: ceph-deploy --overwrite-conf admin {{ item }}
+  with_items: "{{ groups.all }}"
+  when: item != "admin"
+
+- name: Deploying mgr
+  command: ceph-deploy mgr create {{ item }}
+  with_items: "{{ groups.mgrs }}"
+
+- name: Creating osds for device /dev/sdb
+  command: ceph-deploy osd create --data /dev/sdb {{ item }}
   with_items: "{{ groups.osds }}"
+
+- name: Creating osds for device /dev/sdc
+  command: ceph-deploy osd create --data /dev/sdc {{ item }}
+  with_items: "{{ groups.osds }}"
+
+- name: Move ceph config and keyrings
+  command: cp ceph.* /etc/ceph/
+  become: True
