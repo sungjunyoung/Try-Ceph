@@ -1,28 +1,34 @@
 ---
-- hosts:  
-   - mons
-   - osds
-  sudo: True
+- hosts:
+    - admin
+    - mgrs
+    - mons
+    - osds
+  become: True
   roles:
-  - common 
+    - common
 
 - hosts:
-   - mons 
-  sudo: True
+    - admin
   roles:
-  - mons 
+    - admin
 
-- hosts: osds
-  sudo: True
-  roles:
-  - osds 
+# - hosts:
+#    - mons
+#   become: True
+#   roles:
+#   - mons
 
-- hosts:
-   - mons
-  vars:
-    dnsmasq_listen_address: 127.0.0.1
-  sudo: True
-  tags: rgw
-  roles:
-  - rgw 
+# - hosts: osds
+#   become: True
+#   roles:
+#   - osds
 
+# - hosts:
+#    - mons
+#   vars:
+#     dnsmasq_listen_address: 127.0.0.1
+#   become: True
+#   tags: rgw
+#   roles:
+#   - rgw

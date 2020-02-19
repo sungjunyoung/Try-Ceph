@@ -1,16 +1,10 @@
 ---
 # Variables here are applicable to all host groups NOT roles
 
-# Setup options
-#distro_release: "{{ facter_lsbdistcodename }}"
-#server_model: "VirtualBox"
-
 ceph_ansible_version: 2.0
-#release_key: https://ceph.com/git/?p=ceph.git;a=blob_plain;f=keys/release.asc
-ceph_release: hammer
+ceph_release: nautilus
 redhat_distro: el7 
 distro: centos7
-#EPEL_GPG_key: http://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-6
 
 # Ceph options
 cephx: true

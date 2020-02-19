@@ -1,0 +1,48 @@
+---
+## mon
+#
+
+- name: Writing host key to known hosts
+  shell: "ssh-keyscan -H {{ item }} >> /home/vagrant/.ssh/known_hosts"
+  with_items: "{{ groups.all }}"
+
+- name: Installing python prerquirements
+  yum:
+    name: python-setuptools
+    state: present
+  become: True
+
+- name: Installing Ceph Deploy package
+  yum:
+    name: ceph-deploy
+    state: present
+    enablerepo: ceph
+
+- name: Installing packages with ceph-deploy
+  command: ceph-deploy install {{ item }}
+  with_items: "{{ groups.all }}"
+
+- name: Creating new Ceph cluster
+  command: ceph-deploy new mon0
+
+- name: Creating Ceph /etc/ceph directory
+  file:
+    path: /etc/ceph
+    state: directory
+
+- name: Generating Ceph configuration file
+  template:
+    src: roles/mons/templates/ceph.conf.j2
+    dest: /etc/ceph/ceph.conf
+    mod: '0766'
+
+- name: Initializing mon
+  command: ceph-deploy mon create-initial
+
+- name: Copying config file and admin key to ceph mons
+  command: ceph-deploy admin {{ item }}
+  with_items: "{{ groups.mons }}"
+
+- name: Copying config file and admin key to ceph osds
+  command: ceph-deploy admin {{ item }}
+  with_items: "{{ groups.osds }}"

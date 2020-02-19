@@ -1,0 +1,7 @@
+[global]
+  auth cluster required = cephx
+  auth service required = cephx
+  auth client required = cephx
+  fsid = {{ fsid }}
+  cluster network = {{ cluster_network }}
+  public network = {{ public_network }}
